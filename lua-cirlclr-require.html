@@ -113,6 +113,7 @@ Bar = Bar or require "bar"
 This is only possible because you are deferring the usage of Foo to when the function is called. If you wanted to call Foo.name from within the scope of bar.lua, you would end up with the same circular dependency issue.
 
 
+注意：当把foo={}改成local foo ={}时会出错。这里在require中bar和foo都是全局的变量。
 
 <!-- markdown end -->
 </div>
@@ -197,6 +198,8 @@ return Bar
 <pre><code>Foo = {}
 Bar = Bar or require "bar"
 </code></pre>This is only possible because you are deferring the usage of Foo to when the function is called. If you wanted to call Foo.name from within the scope of bar.lua, you would end up with the same circular dependency issue.<p></p>
+
+<p>注意：当把foo={}改成local foo ={}时会出错。这里在require中bar和foo都是全局的变量。</p>
 <!-- content end -->
 </div>
 <br>
