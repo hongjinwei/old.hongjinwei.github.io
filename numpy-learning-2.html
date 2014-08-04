@@ -1,0 +1,380 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="Keywords" content="blog"/>
+    <meta name="Description" content="blog"/>
+    <title>Simple</title>
+    <link rel="shortcut icon" href="/static/favicon.png"/>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+</head>
+<body>
+<div class="main">
+    <div class="header">
+    	<ul id="pages">
+            <li><a href="/">home</a></li>
+            <li><a href="/#/tags">tags</a></li>
+            <li><a href="/#/archive">archive</a></li>
+    	</ul>
+    </div>
+	<div class="wrap-header">
+	<h1>
+    <a href="/" id="title"></a>
+	</h1>
+	</div>
+<div id="md" style="display: none;">
+<!-- markdown -->
+1.`array`
+###Examples
+
+~~~~{python_shell}
+Examples
+
+>>>
+>>> np.array([1, 2, 3])
+array([1, 2, 3])
+Upcasting:
+
+>>>
+>>> np.array([1, 2, 3.0])
+array([ 1.,  2.,  3.])
+More than one dimension:
+
+>>>
+>>> np.array([[1, 2], [3, 4]])
+array([[1, 2],
+       [3, 4]])
+Minimum dimensions 2:
+
+>>>
+>>> np.array([1, 2, 3], ndmin=2)
+array([[1, 2, 3]])
+Type provided:
+
+>>>
+>>> np.array([1, 2, 3], dtype=complex)
+array([ 1.+0.j,  2.+0.j,  3.+0.j])
+Data-type consisting of more than one element:
+
+>>>
+>>> x = np.array([(1,2),(3,4)],dtype=[('a','<i4'),('b','<i4')])
+>>> x['a']
+array([1, 3])
+Creating an array from sub-classes:
+
+>>>
+>>> np.array(np.mat('1 2; 3 4'))
+array([[1, 2],
+       [3, 4]])
+>>>
+>>> np.array(np.mat('1 2; 3 4'), subok=True)
+matrix([[1, 2],
+        [3, 4]])
+~~~~
+
+2.`tile`
+
+Construct an array by repeating A the number of times given by reps.
+
+###example
+~~~~{python_shell}
+>>> a = np.array([0, 1, 2])
+>>> np.tile(a, 2)
+array([0, 1, 2, 0, 1, 2])
+>>> np.tile(a, (2, 2))
+array([[0, 1, 2, 0, 1, 2],
+       [0, 1, 2, 0, 1, 2]])
+>>> np.tile(a, (2, 1, 2))
+array([[[0, 1, 2, 0, 1, 2]],
+       [[0, 1, 2, 0, 1, 2]]])
+>>>
+>>> b = np.array([[1, 2], [3, 4]])
+>>> np.tile(b, 2)
+array([[1, 2, 1, 2],
+       [3, 4, 3, 4]])
+>>> np.tile(b, (2, 1))
+array([[1, 2],
+       [3, 4],
+       [1, 2],
+       [3, 4]])
+~~~~
+
+3.matrix.sum(axis=0)
+
+while axis=1 plus in line and fi axis=0 plus in column
+axis = None as default and in this situation , it will plus all elements
+###example
+~~~~{python_shell}
+>>> np.sum([0.5, 1.5])
+2.0
+>>> np.sum([0.5, 0.7, 0.2, 1.5], dtype=np.int32)
+1
+>>> np.sum([[0, 1], [0, 5]])
+6
+>>> np.sum([[0, 1], [0, 5]], axis=0)
+array([0, 6])
+>>> np.sum([[0, 1], [0, 5]], axis=1)
+array([1, 5])
+If the accumulator is too small, overflow occurs:
+
+>>>
+>>> np.ones(128, dtype=np.int8).sum(dtype=np.int8)
+-128
+~~~~
+
+4.argsort()
+
+Returns the indices that would sort an array.
+
+~~~~{python_shell}
+>>> x = np.array([3, 1, 2])
+>>> np.argsort(x)
+array([1, 2, 0])
+
+Two-dimensional array:
+
+>>>
+>>> x = np.array([[0, 3], [2, 2]])
+>>> x
+array([[0, 3],
+       [2, 2]])
+>>>
+>>> np.argsort(x, axis=0)
+array([[0, 1],
+       [1, 0]])
+>>>
+>>> np.argsort(x, axis=1)
+array([[0, 1],
+       [0, 1]])
+
+Sorting with keys:
+
+>>>
+>>> x = np.array([(1, 0), (0, 1)], dtype=[('x', '<i4'), ('y', '<i4')])
+>>> x
+array([(1, 0), (0, 1)],
+      dtype=[('x', '<i4'), ('y', '<i4')])
+>>>
+>>> np.argsort(x, order=('x','y'))
+array([1, 0])
+>>>
+>>> np.argsort(x, order=('y','x'))
+array([0, 1])
+~~~~
+
+
+
+
+<!-- markdown end -->
+</div>
+<div class="entry" id="main">
+<!-- content -->
+<p>1.<code>array</code></p>
+
+<h3 id="examples">Examples</h3>
+
+<pre><code class="language-python_shell">Examples
+
+&gt;&gt;&gt;
+&gt;&gt;&gt; np.array([1, 2, 3])
+array([1, 2, 3])
+Upcasting:
+
+&gt;&gt;&gt;
+&gt;&gt;&gt; np.array([1, 2, 3.0])
+array([ 1.,  2.,  3.])
+More than one dimension:
+
+&gt;&gt;&gt;
+&gt;&gt;&gt; np.array([[1, 2], [3, 4]])
+array([[1, 2],
+       [3, 4]])
+Minimum dimensions 2:
+
+&gt;&gt;&gt;
+&gt;&gt;&gt; np.array([1, 2, 3], ndmin=2)
+array([[1, 2, 3]])
+Type provided:
+
+&gt;&gt;&gt;
+&gt;&gt;&gt; np.array([1, 2, 3], dtype=complex)
+array([ 1.+0.j,  2.+0.j,  3.+0.j])
+Data-type consisting of more than one element:
+
+&gt;&gt;&gt;
+&gt;&gt;&gt; x = np.array([(1,2),(3,4)],dtype=[('a','&lt;i4'),('b','&lt;i4')])
+&gt;&gt;&gt; x['a']
+array([1, 3])
+Creating an array from sub-classes:
+
+&gt;&gt;&gt;
+&gt;&gt;&gt; np.array(np.mat('1 2; 3 4'))
+array([[1, 2],
+       [3, 4]])
+&gt;&gt;&gt;
+&gt;&gt;&gt; np.array(np.mat('1 2; 3 4'), subok=True)
+matrix([[1, 2],
+        [3, 4]])
+</code></pre>
+
+<p>2.<code>tile</code></p>
+
+<p>Construct an array by repeating A the number of times given by reps.</p>
+
+<h3 id="example">example</h3>
+
+<pre><code class="language-python_shell">&gt;&gt;&gt; a = np.array([0, 1, 2])
+&gt;&gt;&gt; np.tile(a, 2)
+array([0, 1, 2, 0, 1, 2])
+&gt;&gt;&gt; np.tile(a, (2, 2))
+array([[0, 1, 2, 0, 1, 2],
+       [0, 1, 2, 0, 1, 2]])
+&gt;&gt;&gt; np.tile(a, (2, 1, 2))
+array([[[0, 1, 2, 0, 1, 2]],
+       [[0, 1, 2, 0, 1, 2]]])
+&gt;&gt;&gt;
+&gt;&gt;&gt; b = np.array([[1, 2], [3, 4]])
+&gt;&gt;&gt; np.tile(b, 2)
+array([[1, 2, 1, 2],
+       [3, 4, 3, 4]])
+&gt;&gt;&gt; np.tile(b, (2, 1))
+array([[1, 2],
+       [3, 4],
+       [1, 2],
+       [3, 4]])
+</code></pre>
+
+<p>3.matrix.sum(axis=0)</p>
+
+<p>while axis=1 plus in line and fi axis=0 plus in column
+axis = None as default and in this situation , it will plus all elements</p>
+
+<h3 id="example">example</h3>
+
+<pre><code class="language-python_shell">&gt;&gt;&gt; np.sum([0.5, 1.5])
+2.0
+&gt;&gt;&gt; np.sum([0.5, 0.7, 0.2, 1.5], dtype=np.int32)
+1
+&gt;&gt;&gt; np.sum([[0, 1], [0, 5]])
+6
+&gt;&gt;&gt; np.sum([[0, 1], [0, 5]], axis=0)
+array([0, 6])
+&gt;&gt;&gt; np.sum([[0, 1], [0, 5]], axis=1)
+array([1, 5])
+If the accumulator is too small, overflow occurs:
+
+&gt;&gt;&gt;
+&gt;&gt;&gt; np.ones(128, dtype=np.int8).sum(dtype=np.int8)
+-128
+</code></pre>
+
+<p>4.argsort()</p>
+
+<p>Returns the indices that would sort an array.</p>
+
+<pre><code class="language-python_shell">&gt;&gt;&gt; x = np.array([3, 1, 2])
+&gt;&gt;&gt; np.argsort(x)
+array([1, 2, 0])
+
+Two-dimensional array:
+
+&gt;&gt;&gt;
+&gt;&gt;&gt; x = np.array([[0, 3], [2, 2]])
+&gt;&gt;&gt; x
+array([[0, 3],
+       [2, 2]])
+&gt;&gt;&gt;
+&gt;&gt;&gt; np.argsort(x, axis=0)
+array([[0, 1],
+       [1, 0]])
+&gt;&gt;&gt;
+&gt;&gt;&gt; np.argsort(x, axis=1)
+array([[0, 1],
+       [0, 1]])
+
+Sorting with keys:
+
+&gt;&gt;&gt;
+&gt;&gt;&gt; x = np.array([(1, 0), (0, 1)], dtype=[('x', '&lt;i4'), ('y', '&lt;i4')])
+&gt;&gt;&gt; x
+array([(1, 0), (0, 1)],
+      dtype=[('x', '&lt;i4'), ('y', '&lt;i4')])
+&gt;&gt;&gt;
+&gt;&gt;&gt; np.argsort(x, order=('x','y'))
+array([1, 0])
+&gt;&gt;&gt;
+&gt;&gt;&gt; np.argsort(x, order=('y','x'))
+array([0, 1])
+</code></pre>
+<!-- content end -->
+</div>
+<br>
+<br>
+    <div id="disqus_thread"></div>
+	<div class="footer">
+		<p>© Copyright 2014 by isnowfy, Designed by isnowfy</p>
+	</div>
+</div>
+<script src="main.js"></script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ["\\(", "\\)"]], processEscapes: true}});
+</script>
+<script id="content" type="text/mustache">
+    <h1>{{title}}</h1>
+    <div class="tag">
+    {{date}}
+    {{#tags}}
+    <a href="/#/tag/{{name}}">#{{name}}</a>
+    {{/tags}}
+    </div>
+</script>
+<script id="pagesTemplate" type="text/mustache">
+    {{#pages}}
+    <li>
+        <a href="{{path}}">{{title}}</a>
+    </li>
+    {{/pages}}
+</script>
+<script>
+$(document).ready(function() {
+    $.ajax({
+        url: "main.json",
+        type: "GET",
+        dataType: "json",
+        success: function(data) {
+            $("#title").html(data.name);
+            var pagesTemplate = Hogan.compile($("#pagesTemplate").html());
+            var pagesHtml = pagesTemplate.render({"pages": data.pages});
+            $("#pages").append(pagesHtml);
+            //path
+            var path = "numpy-learning-2.html";
+            //path end
+            var now = 0;
+            for (var i = 0; i < data.posts.length; ++i)
+                if (path == data.posts[i].path)
+                    now = i;
+            var post = data.posts[now];
+            var tmp = post.tags.split(" ");
+            var tags = [];
+            for (var i = 0; i < tmp.length; ++i)
+                if (tmp[i].length > 0)
+                    tags.push({"name": tmp[i]});
+            var contentTemplate = Hogan.compile($("#content").html());
+            var contentHtml = contentTemplate.render({"title": post.title, "tags": tags, "date": post.date});
+            $("#main").prepend(contentHtml);
+            if (data.disqus_shortname.length > 0) {
+                var disqus_shortname = data.disqus_shortname;
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            }
+        }
+    });
+});
+</script>
+</body>
+</html>
