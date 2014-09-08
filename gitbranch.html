@@ -1,0 +1,98 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <title></title>
+<style id="system" type="text/css">h1,h2,h3,h4,h5,h6,p,blockquote {    margin: 0;    padding: 0;}body {    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;    font-size: 13px;    line-height: 18px;    color: #737373;    margin: 10px 13px 10px 13px;}a {    color: #0069d6;}a:hover {    color: #0050a3;    text-decoration: none;}a img {    border: none;}p {    margin-bottom: 9px;}h1,h2,h3,h4,h5,h6 {    color: #404040;    line-height: 36px;}h1 {    margin-bottom: 18px;    font-size: 30px;}h2 {    font-size: 24px;}h3 {    font-size: 18px;}h4 {    font-size: 16px;}h5 {    font-size: 14px;}h6 {    font-size: 13px;}hr {    margin: 0 0 19px;    border: 0;    border-bottom: 1px solid #ccc;}blockquote {    padding: 13px 13px 21px 15px;    margin-bottom: 18px;    font-family:georgia,serif;    font-style: italic;}blockquote:before {    content:"C";    font-size:40px;    margin-left:-10px;    font-family:georgia,serif;    color:#eee;}blockquote p {    font-size: 14px;    font-weight: 300;    line-height: 18px;    margin-bottom: 0;    font-style: italic;}code, pre {    font-family: Monaco, Andale Mono, Courier New, monospace;}code {    background-color: #fee9cc;    color: rgba(0, 0, 0, 0.75);    padding: 1px 3px;    font-size: 12px;    -webkit-border-radius: 3px;    -moz-border-radius: 3px;    border-radius: 3px;}pre {    display: block;    padding: 14px;    margin: 0 0 18px;    line-height: 16px;    font-size: 11px;    border: 1px solid #d9d9d9;    white-space: pre-wrap;    word-wrap: break-word;}pre code {    background-color: #fff;    color:#737373;    font-size: 11px;    padding: 0;}@media screen and (min-width: 768px) {    body {        width: 748px;        margin:10px auto;    }}</style><style id="custom" type="text/css"></style></head>
+<body marginheight="0"><h1>git 分支管理</h1>
+<h2>一、远程仓库有master和dev分支</h2>
+<h3>克隆代码</h3>
+<pre><code>git clone https://github.com/master-dev.git  </code></pre>
+<h3>查看所有分支</h3>
+<pre><code>git branch --all  </code></pre>
+<p>默认有了dev和master分支，所以会看到如下三个分支
+
+</p>
+<pre><code>master[本地主分支] origin/master[远程主分支] origin/dev[远程开发分支]</code></pre>
+<p>新克隆下来的代码默认master和origin/master是关联的，也就是他们的代码保持同步
+
+</p>
+<p>但是origin/dev分支在本地没有任何的关联，所以我们无法在那里开发
+
+
+</p>
+<h3>创建本地关联origin/dev的分支</h3>
+<pre><code>git checkout dev origin/dev  </code></pre>
+<p>创建本地分支dev，并且和远程origin/dev分支关联，本地dev分支的初始代码和远程的dev分支代码一样
+
+
+</p>
+<h3>切换到dev分支进行开发</h3>
+<pre><code>git checkout dev  # 这个是切换到dev分支，然后就是常规的开发</code></pre>
+<h2>二、假设远程仓库只有mater分支</h2>
+<h3>克隆代码</h3>
+<pre><code>git clone https://github.com/master-dev.git  </code></pre>
+<p>查看所有分支
+
+</p>
+<pre><code>git branch --all  </code></pre>
+<p>默认只有master分支，所以会看到如下两个分支
+
+</p>
+<pre><code>master[本地主分支] origin/master[远程主分支]</code></pre>
+<p>新克隆下来的代码默认master和origin/master是关联的，也就是他们的代码保持同步
+
+</p>
+<p>创建本地新的dev分支
+
+</p>
+<pre><code>git branch dev  # 创建本地分支
+git branch  # 查看分支</code></pre>
+<p>这是会看到master和dev，而且master上会有一个星号.
+
+</p>
+<p>这个时候dev是一个本地分支，远程仓库不知道它的存在.
+
+</p>
+<p>本地分支可以不同步到远程仓库，我们可以在dev开发，然后merge到master，使用master同步代码，当然也可以同步
+
+</p>
+<h3>发布dev分支</h3>
+<p>发布dev分支指的是同步dev分支的代码到远程服务器
+
+</p>
+<pre><code>git push origin dev:dev  # 这样远程仓库也有一个dev分支了</code></pre>
+<h3>在dev分支开发代码</h3>
+<pre><code>git checkout dev  # 切换到dev分支进行开发</code></pre>
+<blockquote>
+<p>开发代码之后，我们有两个选择
+
+</p>
+<p>第一个：如果功能开发完成了，可以合并主分支
+
+
+</p>
+</blockquote>
+<pre><code>git checkout master  # 切换到主分支
+git merge dev  # 把dev分支的更改和master合并
+git push  # 提交主分支代码远程
+git checkout dev #切换到dev远程分支
+git push  # 提交dev分支到远程</code></pre>
+<blockquote>
+<p>第二个：如果功能没有完成，可以直接推送
+
+</p>
+</blockquote>
+<pre><code>git push  # 提交到dev远程分支</code></pre>
+<p>注意：在分支切换之前最好先commit全部的改变，除非你真的知道自己在做什么
+6. 删除分支
+    git push origin :dev  # 删除远程dev分支，危险命令哦
+
+</p>
+<blockquote>
+<p>下面两条是删除本地分支
+
+</p>
+</blockquote>
+<pre><code>git checkout master  # 切换到master分支
+git branch -d dev  # 删除本地dev分支</code></pre>
+<p>Edit By <a href="http://mahua.jser.me">MaHua</a></p>
+</body></html>
