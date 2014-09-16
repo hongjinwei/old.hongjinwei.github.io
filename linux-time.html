@@ -1,0 +1,112 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <title></title>
+<style id="system" type="text/css">h1,h2,h3,h4,h5,h6,p,blockquote {    margin: 0;    padding: 0;}body {    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;    font-size: 13px;    line-height: 18px;    color: #737373;    margin: 10px 13px 10px 13px;}a {    color: #0069d6;}a:hover {    color: #0050a3;    text-decoration: none;}a img {    border: none;}p {    margin-bottom: 9px;}h1,h2,h3,h4,h5,h6 {    color: #404040;    line-height: 36px;}h1 {    margin-bottom: 18px;    font-size: 30px;}h2 {    font-size: 24px;}h3 {    font-size: 18px;}h4 {    font-size: 16px;}h5 {    font-size: 14px;}h6 {    font-size: 13px;}hr {    margin: 0 0 19px;    border: 0;    border-bottom: 1px solid #ccc;}blockquote {    padding: 13px 13px 21px 15px;    margin-bottom: 18px;    font-family:georgia,serif;    font-style: italic;}blockquote:before {    content:"C";    font-size:40px;    margin-left:-10px;    font-family:georgia,serif;    color:#eee;}blockquote p {    font-size: 14px;    font-weight: 300;    line-height: 18px;    margin-bottom: 0;    font-style: italic;}code, pre {    font-family: Monaco, Andale Mono, Courier New, monospace;}code {    background-color: #fee9cc;    color: rgba(0, 0, 0, 0.75);    padding: 1px 3px;    font-size: 12px;    -webkit-border-radius: 3px;    -moz-border-radius: 3px;    border-radius: 3px;}pre {    display: block;    padding: 14px;    margin: 0 0 18px;    line-height: 16px;    font-size: 11px;    border: 1px solid #d9d9d9;    white-space: pre-wrap;    word-wrap: break-word;}pre code {    background-color: #fff;    color:#737373;    font-size: 11px;    padding: 0;}@media screen and (min-width: 768px) {    body {        width: 748px;        margin:10px auto;    }}</style><style id="custom" type="text/css"></style></head>
+<body marginheight="0"><h1>linux系统时间的同步和修改</h1>
+<p>date 月日时分年.秒
+date -s可以直接设置系统时间
+
+</p>
+<p>比如将系统时间设定成1996年6月10日的命令如下。
+</p>
+<pre><code>#date -s 06/10/96</code></pre>
+<p>将系统时间设定成下午1点12分0秒的命令如下。
+</p>
+<pre><code>#date -s 13:12:00</code></pre>
+<p>时间同步
+</p>
+<h3>1.首先需了解linux内一任务计划工具crontab</h3>
+<p>crontab可以定时去执行你要做的动作
+直接用crontab命令编辑
+    crontab -u //设定某个用户的cron服务，一般root用户在执行这个命令的时候需要此参数
+    crontab -l //列出某个用户cron服务的详细内容
+    crontab -r //删除某个用户的cron服务
+    crontab -e //编辑某个用户的cron服务
+一般使用crontab -e来编辑一个计划动作，编辑模式同vi编辑器相同
+crontab内的基本编辑格式如下
+
+</p>
+<pre><code>*　　*　　*　　*　　*　　command
+分　 时　 日　 月　周　  命令
+第1列表示分钟1～59 每分钟用*或者 */1表示
+第2列表示小时1～23（0表示0点）
+第3列表示日期1～31
+第4列表示月份1～12
+第5列标识号星期0～6（0表示星期天）
+第6列要运行的命令</code></pre>
+<p>crontab文件的一些例子：
+
+</p>
+<pre><code>30 21 * * * /etc/init.d/smb restart
+上面的例子表示每晚的21:30重启smb 。
+45 4 1,10,22 * * /etc/init.d/smb restart
+上面的例子表示每月1、10、22日的4 : 45重启smb 。
+10 1 * * 6,0 /etc/init.d/smb restart
+上面的例子表示每周六、周日的1 : 10重启smb 。
+0,30 18-23 * * * /etc/init.d/smb restart
+上面的例子表示在每天18 : 00至23 : 00之间每隔30分钟重启smb 。
+0 23 * * 6 /etc/init.d/smb restart
+上面的例子表示每星期六的11 : 00 pm重启smb 。
+* */1 * * * /etc/init.d/smb restart
+每一小时重启smb
+* 23-7/1 * * * /etc/init.d/smb restart
+晚上11点到早上7点之间，每隔一小时重启smb
+0 11 4 * mon-wed /etc/init.d/smb restart
+每月的4号与每周一到周三的11点重启smb
+0 4 1 jan * /etc/init.d/smb restart
+一月一号的4点重启smb</code></pre>
+<h3>2.寻找一个网络时间服务器，比如一些国家授时中心</h3>
+<p><code>微软公司授时主机(美国)</code>
+
+</p>
+<p>time.windows.com
+
+</p>
+<p><code>台警大授时中心(台湾)</code>
+
+</p>
+<p>asia.pool.ntp.org
+
+</p>
+<p><code>中科院授时中心(西安)</code>
+
+</p>
+<p>210.72.145.44
+
+</p>
+<p><code>网通授时中心(北京)</code>
+
+</p>
+<p>219.158.14.130
+
+</p>
+<h3>3.我们的电脑怎样去同步授时中心的时间</h3>
+<pre><code>ntpdate asia.pool.ntp.org</code></pre>
+<p>上面此命令就是去同步授时中心的时间
+如果要让系统每天23：00去同步，这样可以使用上面所将的crontab设置计划同步
+
+</p>
+<p>如下命令
+
+</p>
+<pre><code>#crontab -e
+进入crontab编辑模式，使用方法同vi
+输入 0 23 * * * ntpdate asia.pool.ntp.org &gt;&gt; /var/log/ntpdate.log
+保存退出
+这样就完成了你的系统到每天23：00去asia.pool.ntp.org 同步时间，并将同步的日志放到
+/var/log/ntpdate.log</code></pre>
+<p>下面补充一下系统时间的设置
+    date -s可以直接设置系统时间
+    比如将系统时间设定成1996年6月10日的命令如下。
+</p>
+<pre><code>#date -s 06/10/96
+将系统时间设定成下午1点12分0秒的命令如下。
+#date -s 13:12:00</code></pre>
+<p>注意，这里说的是系统时间，是linux由操作系统维护的。
+
+</p>
+<p>在系统启动时，Linux操作系统将时间从CMOS中读到系统时间变量中，以后修改时间通过修改系统时间实现。为了保持系统时间与CMOS时间的一致性，Linux每隔一段时间会将系统时间写入CMOS。由于该同步是每隔一段时间（大约是11分钟）进行的，在我们执行date -s后，如果马上重起机器，修改时间就有可能没有被写入CMOS,这就是问题的原因。如果要确保修改生效可以执行如下命令。
+</p>
+<pre><code>#clock -w</code></pre>
+<p>这个命令强制把系统时间写入CMOS</p>
+</body></html>
