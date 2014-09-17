@@ -1,0 +1,132 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <title></title>
+<style id="system" type="text/css">h1,h2,h3,h4,h5,h6,p,blockquote {    margin: 0;    padding: 0;}body {    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;    font-size: 13px;    line-height: 18px;    color: #737373;    margin: 10px 13px 10px 13px;}a {    color: #0069d6;}a:hover {    color: #0050a3;    text-decoration: none;}a img {    border: none;}p {    margin-bottom: 9px;}h1,h2,h3,h4,h5,h6 {    color: #404040;    line-height: 36px;}h1 {    margin-bottom: 18px;    font-size: 30px;}h2 {    font-size: 24px;}h3 {    font-size: 18px;}h4 {    font-size: 16px;}h5 {    font-size: 14px;}h6 {    font-size: 13px;}hr {    margin: 0 0 19px;    border: 0;    border-bottom: 1px solid #ccc;}blockquote {    padding: 13px 13px 21px 15px;    margin-bottom: 18px;    font-family:georgia,serif;    font-style: italic;}blockquote:before {    content:"C";    font-size:40px;    margin-left:-10px;    font-family:georgia,serif;    color:#eee;}blockquote p {    font-size: 14px;    font-weight: 300;    line-height: 18px;    margin-bottom: 0;    font-style: italic;}code, pre {    font-family: Monaco, Andale Mono, Courier New, monospace;}code {    background-color: #fee9cc;    color: rgba(0, 0, 0, 0.75);    padding: 1px 3px;    font-size: 12px;    -webkit-border-radius: 3px;    -moz-border-radius: 3px;    border-radius: 3px;}pre {    display: block;    padding: 14px;    margin: 0 0 18px;    line-height: 16px;    font-size: 11px;    border: 1px solid #d9d9d9;    white-space: pre-wrap;    word-wrap: break-word;}pre code {    background-color: #fff;    color:#737373;    font-size: 11px;    padding: 0;}@media screen and (min-width: 768px) {    body {        width: 748px;        margin:10px auto;    }}</style><style id="custom" type="text/css"></style></head>
+<body marginheight="0"><h1>lua中table引用和拷贝问题</h1>
+<hr>
+<p>lua的table是lua的核心数据结构。
+
+
+
+</p>
+<p>lua中我们将一个table copy给另外一个时，不能够简单的将table赋值给另外一个值，‘=’号只是传递引用。
+
+</p>
+<p>来看一个例子
+
+</p>
+<pre><code>local t = {
+    a = 1,
+    b = 4
+}
+
+local s = t
+s.a = 2
+s.c = 3
+print(t.a)
+print(t.c)
+
+&gt;lua test.lua
+2
+3</code></pre>
+<p>可以看到s引用了t，对s中的元素进行改变，实际上都是在对t操作。
+
+</p>
+<p>但是通过引用来操作一个table中的table来操作这个表时，会产生问题。
+
+</p>
+<p>来看个例子
+
+
+</p>
+<pre><code>local t = {
+    a = 1,
+    b = 4,
+    d = {5}
+}
+
+local s = t
+--s.d = nil
+s.c = 3
+
+for k,v in pairs(t) do
+    print(v)
+end
+
+print('----------')
+local u = t['d']
+u = nil
+for k,v in pairs(t) do
+    print(v)
+end
+&gt;lua test.lu
+1
+table: 0x8719738
+3
+4
+----------
+1
+table: 0x8719738
+3
+4</code></pre>
+<p>我们希望可以可以通过引用t表下的d，将其赋值为nil来删除这一项，实际上并没有起作用。
+
+</p>
+<p>因为u = nil语句实际上只是将u赋值为nil，或者可以理解为将u又重新指向了nil。
+
+</p>
+<p>那么，如何实现table的拷贝而不是引用呢？
+
+</p>
+<p>可以通过遍历拷贝来实现。
+例子如下：
+
+
+</p>
+<pre><code>--This function returns a deep copy of a given table. 
+
+--The function below also copies the metatable to the new table if there is one, so the behaviour of the copied table is the same as the original. 
+
+--But the 2 tables share the same metatable, you can avoid this by changing this 'getmetatable(object)' to '_copy( getmetatable(object) )'.
+
+function deepcopy(object)
+    local lookup_table = {}
+    local function _copy(object)
+        if type(object) ~= "table" then
+            return object
+        elseif lookup_table[object] then
+            return lookup_table[object]
+        end  -- if
+        local new_table = {}
+        lookup_table[object] = new_table
+        for index, value in pairs(object) do
+            new_table[_copy(index)] = _copy(value)
+        end  -- for
+        return setmetatable(new_table, getmetatable(object))
+    end  -- function _copy
+    return _copy(object)
+end  -- function deepcopy
+
+--this func simply return a new table
+function th_table_dup(ori_tab)
+    if (type(ori_tab) ~= "table") then
+        return nil;
+    end
+    local new_tab = {};
+    for i,v in pairs(ori_tab) do
+        local vtyp = type(v);
+        if (vtyp == "table") then
+            new_tab[i] = th_table_dup(v);
+        elseif (vtyp == "thread") then
+            -- TODO: dup or just point to?
+            new_tab[i] = v;
+        elseif (vtyp == "userdata") then
+            -- TODO: dup or just point to?
+            new_tab[i] = v;
+        else
+            new_tab[i] = v;
+        end
+    end
+    return new_tab;
+end</code></pre>
+</body></html>
