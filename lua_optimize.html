@@ -1,0 +1,188 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <title></title>
+<style id="system" type="text/css">h1,h2,h3,h4,h5,h6,p,blockquote {    margin: 0;    padding: 0;}body {    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;    font-size: 13px;    line-height: 18px;    color: #737373;    margin: 10px 13px 10px 13px;}a {    color: #0069d6;}a:hover {    color: #0050a3;    text-decoration: none;}a img {    border: none;}p {    margin-bottom: 9px;}h1,h2,h3,h4,h5,h6 {    color: #404040;    line-height: 36px;}h1 {    margin-bottom: 18px;    font-size: 30px;}h2 {    font-size: 24px;}h3 {    font-size: 18px;}h4 {    font-size: 16px;}h5 {    font-size: 14px;}h6 {    font-size: 13px;}hr {    margin: 0 0 19px;    border: 0;    border-bottom: 1px solid #ccc;}blockquote {    padding: 13px 13px 21px 15px;    margin-bottom: 18px;    font-family:georgia,serif;    font-style: italic;}blockquote:before {    content:"C";    font-size:40px;    margin-left:-10px;    font-family:georgia,serif;    color:#eee;}blockquote p {    font-size: 14px;    font-weight: 300;    line-height: 18px;    margin-bottom: 0;    font-style: italic;}code, pre {    font-family: Monaco, Andale Mono, Courier New, monospace;}code {    background-color: #fee9cc;    color: rgba(0, 0, 0, 0.75);    padding: 1px 3px;    font-size: 12px;    -webkit-border-radius: 3px;    -moz-border-radius: 3px;    border-radius: 3px;}pre {    display: block;    padding: 14px;    margin: 0 0 18px;    line-height: 16px;    font-size: 11px;    border: 1px solid #d9d9d9;    white-space: pre-wrap;    word-wrap: break-word;}pre code {    background-color: #fff;    color:#737373;    font-size: 11px;    padding: 0;}@media screen and (min-width: 768px) {    body {        width: 748px;        margin:10px auto;    }}</style><style id="custom" type="text/css"></style></head>
+<body marginheight="0"><h1>Lua 性能优化</h1>
+<p>关于Lua性能优化，有Luajit这一个利器。在Luajit中对于Lua很多地方进行了优化。
+
+</p>
+<p>详情见：<a href="http://wiki.luajit.org/NYI">http://wiki.luajit.org/NYI</a>
+
+</p>
+<p>wiki： <a href="http://wiki.luajit.org/Home">http://wiki.luajit.org/Home</a>
+
+
+</p>
+<p>另外关于Lua优化还有很多细节工作要做。目前我主要参与开发的RTB系统，就是以ngx_lua为主要架构的，通过Lua的一些优化，能够使该系统拥有更高的QPS。
+
+</p>
+<p>关于Lua优化的一些细节主要有下。
+
+</p>
+<h3>经常使用的库函数，使用local方式来调用，注意仅一次调用是不起作用的。</h3>
+<p>Lua在调用函数的时候总要动态的加载，而使用local方式缓存之后能够大大提高加载的速度。
+
+</p>
+<pre><code>--this is the lowest method
+string.rep()
+
+--this is a better way
+local rep = string.rep</code></pre>
+<h3>创建table时，事先分配好大小。</h3>
+<p>Lua支持动态的table数据结构，因此Lua在创建table的时候是动态分配内存大小，在第一次local tbl = {}申明了一个table时，只分配必要的空间，之后每insert一个，Lua会动态扩充，第一次申请1块，然后2块，之后4块，因此事先分配内存可以减少动态分配的开销。
+
+</p>
+<pre><code>--allocate the table when you declare it
+local tbl = {nil,nil}
+table.insert(tbl,1)
+table.insert(tbl,2)</code></pre>
+<h3>避免一些长字符串的format操作。</h3>
+<p>长字符串的format操作效率低下，对于长字符串可以考虑使用..操作来进行字符串连接，效率比format高。  
+
+</p>
+<pre><code>local str = [==[ hello %s ]==]
+string.format(str,"world")
+
+local str = [[hello]]
+return str.. "world"</code></pre>
+<h3>局部函数使用local方式来定义。</h3>
+<p>local方式定义的函数限定了它的作用域，并且能够及时销毁，减少临时的变量。
+
+</p>
+<pre><code>local plus = function(a,b)
+    return a+b
+end</code></pre>
+<h3>利用table来进行结构优化。</h3>
+<p>用table对调用的函数做一个缓存，可以优化效率和结构。
+
+</p>
+<pre><code>--now we define a filter
+--we get three ways to define it
+
+---all filters listed
+local Filter = {nil,nil}
+local Filter.typeA = {nil,nil}
+local Filter.typeB = {nil,nil}
+
+
+Filter.typeA.filter1 = function()
+end
+
+Filter.typeA.filter2 = function()
+end
+
+Filter.typeB.filter1 = function()
+end
+
+Filter.typeB.filter2 = function()
+end
+
+--first way
+function handler(arg)
+    if not Filter.typeA.filter1() then
+        return false
+    end
+
+    if not Filter.typeA.filter2() then
+        return false
+    end
+
+    if not Filter.typeB.filter1() then
+        return false
+    end
+
+    if not Filter.typeB.filter2() then
+        return false
+    end
+
+    return true
+end
+
+--second way
+function handler(arg)
+    for k,func in pairs(Filter.typeA) do
+        if not func() then
+            return false
+    end
+
+    for k,func in pairs(Filter.typeB) do
+        if not func() then
+            return false
+        end
+    end
+
+    return true
+end
+
+--third way
+local func_name_list = { 'filter1','filter2'}
+
+function handler(arg)
+    for _,name in ipairs(func_name_list) do
+        if not Filter.typeA[name]() then
+            return false
+        end
+
+        if not Filter.typeB[name]() then
+            return false
+        end
+     end
+
+     return true
+end
+
+
+--fourth way
+local typeA_func_list = {
+                             Filter.typeA.filter1(),
+                             Filter.typeA.filter2()
+                        }
+
+local typeB_func_list = {
+                             Filter.typeB.filter1(),
+                             Filter.typeB.filter2()
+                        }
+function handler(arg)
+    for _,func in ipairs(typeA_func_list) do
+        if not func() then
+            return false
+        end
+    end
+
+    for _,func in ipairs(typeB_func_list) do
+        if not func() then
+            return false
+        end
+    end
+
+    return true
+end</code></pre>
+<p>这里值得注意的是，LuaJIT针对ipairs作了相当的优化，但是对于pairs，LuaJIT中没有作优化，在一些table中我们尽量避免使用hash表，遍历的时候使用iparis。
+第一种方式是效率最高的，但是结构很糟糕，代码维护起来比较难。
+第二种方式遍历效率极低。
+第三种效率不错，代码结构一般。
+第四种是最好的遍历方式，结构也很不错。我们采用这种方式是最优的。
+
+</p>
+<h3>关于table的遍历。</h3>
+<p>在LuaJIT中针对ipairs作了相当的优化，但是对pairs没有优化。另外对于一些遍历，尽量使用for i,#table do end 来进行遍历。LuaJIT中针对for遍历也进行了优化。对于数组尽量使用for来遍历，这是最快的遍历方式。
+
+</p>
+<h3>关于table.insert。</h3>
+<p>luajit中对于table.insert作了优化。对于数组类型的table，可以利用tbl[#tbl+1]的方式来进行赋值操作，直接用lua解释器可以看到明显的性能差距，用luajit的话差距就没有这么明显了。
+
+</p>
+<pre><code>local tbl = {}
+table.insert(tbl,1)
+tbl[#tbl+1] = 1
+--运行1000000次的结果
+Lua:
+    table.insert time :293.66397857666ms
+    tbl[#tbl+1] time :186.48815155029ms
+    local insert time :222.85604476929ms  --添加了 local insert = table.insert
+LuaJIT:
+    table.insert time :137.73202896118ms
+    tbl[#tbl+1] time :134.56797599792ms
+    local insert time :137.2811794281ms</code></pre>
+<p>Edit By <a href="http://mahua.jser.me">MaHua</a></p>
+</body></html>
