@@ -1,0 +1,65 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <title></title>
+<style id="system" type="text/css">h1,h2,h3,h4,h5,h6,p,blockquote {    margin: 0;    padding: 0;}body {    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;    font-size: 13px;    line-height: 18px;    color: #737373;    margin: 10px 13px 10px 13px;}a {    color: #0069d6;}a:hover {    color: #0050a3;    text-decoration: none;}a img {    border: none;}p {    margin-bottom: 9px;}h1,h2,h3,h4,h5,h6 {    color: #404040;    line-height: 36px;}h1 {    margin-bottom: 18px;    font-size: 30px;}h2 {    font-size: 24px;}h3 {    font-size: 18px;}h4 {    font-size: 16px;}h5 {    font-size: 14px;}h6 {    font-size: 13px;}hr {    margin: 0 0 19px;    border: 0;    border-bottom: 1px solid #ccc;}blockquote {    padding: 13px 13px 21px 15px;    margin-bottom: 18px;    font-family:georgia,serif;    font-style: italic;}blockquote:before {    content:"C";    font-size:40px;    margin-left:-10px;    font-family:georgia,serif;    color:#eee;}blockquote p {    font-size: 14px;    font-weight: 300;    line-height: 18px;    margin-bottom: 0;    font-style: italic;}code, pre {    font-family: Monaco, Andale Mono, Courier New, monospace;}code {    background-color: #fee9cc;    color: rgba(0, 0, 0, 0.75);    padding: 1px 3px;    font-size: 12px;    -webkit-border-radius: 3px;    -moz-border-radius: 3px;    border-radius: 3px;}pre {    display: block;    padding: 14px;    margin: 0 0 18px;    line-height: 16px;    font-size: 11px;    border: 1px solid #d9d9d9;    white-space: pre-wrap;    word-wrap: break-word;}pre code {    background-color: #fff;    color:#737373;    font-size: 11px;    padding: 0;}@media screen and (min-width: 768px) {    body {        width: 748px;        margin:10px auto;    }}</style><style id="custom" type="text/css"></style></head>
+<body marginheight="0"><h1>关于scanf函数输入字符串时的取地址符号&amp;的问题</h1>
+<p>最近在刷九度oj上剑指offer的oj题，突然发现关于scanf函数处理字符串输入的时候，有几种方式都行得通，看代码：
+
+</p>
+<pre><code class="lang-c">int main(int argc, char **argv)
+{
+    char a[20];
+    scanf("%s",&amp;a[0]);
+    printf("%s\n",a);
+    scanf("%s",&amp;a);
+    printf("%s\n",a);
+    scanf("%s",a);
+    printf("%s\n",a);
+
+}</code></pre>
+<p>那么&amp;a,&amp;a[0],a到底有啥不同？
+在网上找到一篇帖子专门分析了这个问题：
+<a href="http://hi.baidu.com/surfmygod/item/968c97863cd9205e26ebd9d1"></a><a href="http://hi.baidu.com/surfmygod/item/968c97863cd9205e26ebd9d1">http://hi.baidu.com/surfmygod/item/968c97863cd9205e26ebd9d1</a>
+</p>
+<hr>
+<p>本文适用于机器为32位，编译器为VC6.0。
+先来看下面一个例子：
+</p>
+<pre><code class="lang-c">main()
+{
+int a[5]={0x11121314,0x21222324,0x31323334,0x41424344,0x51525354};
+int *ptr1=(int *)(&amp;a+1);
+int *ptr2=(int *)(a+1);
+printf("%x,%x",ptr1[-1],*ptr2);
+getch();
+}</code></pre>
+<p>打印输出的结果是多少？第4行&amp;a是不是写错了？数组名怎么还取地址呢？
+你可以试着在软件中编译运行一下，结果是51525354，21222324，没错，就是它了。你可以试着写以下程序再在计算机中编译运行下：
+</p>
+<pre><code class="lang-c">main()
+{
+int a[5]={0x11121314,0x21222324,0x31323334,0x41424344,0x51525354};
+printf("%p\n%p\n",a,&amp;a);
+printf("%d\n%d\n",sizeof(a),sizeof(&amp;a));
+printf("%p\n%p",&amp;a+1,a+1);
+getch();
+}</code></pre>
+<p>你可以看到前两行a和&amp;a打印的结果是一样的（比如0012FF6C），后两行的结果是都是20，而&amp;a+1的结果是0012FF6C，即a的起始地址后移20字节。看到这里对于a和&amp;a的区别是不是有些眉目了？不错，a和&amp;a的值虽然一样，但是前者表示的是数组a的首地址，进阶为数组元素长度，而后者也是表示数组a的首地址（或许有些人不同意我这个观点，对地址取地址应该是指向指针的指针呀。不过你注意了没有，a和&amp;a值是一样的，试想如果这里表示的是指向指针的指针，那么a的地址和指向a的指针的地址可能一样么？两个指针都指向数组首地址，怎么会是指向指针的指针？还有一点需要强调，对一个指针进行sizeof运算，32位系统下应该得到4，而对数组名进行sizeof运算得到的结果却是20，这说明了什么？很显然，数组名虽然能够拿出来代表一个地址，但是它和指针还是有区别的，对它进行sizeof运算也不会得到指针的大小。不信？你可以试试sizeof(&amp;a[0])和sizeof(a)，看看结果是不是相同），但是是将整个数组作为一个对象来看待的，进阶为整个数组长度。也就是说，a和&amp;a虽然值相同，但是a是将所有数组元素看成一个个不同的个体来对待的，而&amp;a是将整个数组作为一个整体来对待的。这里要强调的是，a+1和&amp;a[1]其实是一样的，都是代表a数组向后偏移一个元素的地址，你可以再用sizeof关键字打印一下两个的值。但是a和&amp;a[0]的意义相同么？若打印地址的话，两者确实是一样的，但是你也用sizeof打印下两者，一样么？再试试a+0呢？很显然，a和a+0是有区别的，但是a+0和&amp;a[0]是含义相同的。所以，你可以说a+i和&amp;a[i]含义相同，但是绝不能说a和&amp;a[0]或a+0含义相同。所以&amp;a+1后移20位为&amp;a+sizeof(&amp;a)，而a+1却是a+sizeof(a[i])。（《C语言深度解剖》认为在32为系统下sizeof(&amp;a)的值仍为4，我觉得是不对的。他觉得是VC6.0错了，其实不止VC，其他很多编译器得到的结果也不会是4，这说明a和&amp;a在C中本来就不是作为指针来用的，只是具有指针的部分性质而已。）ptr1是将&amp;a+1强转为int类型指针，此时打印ptr1[-1]即将ptr指针前移sizeof(int)个字节，故打印结果是5。这样一来后面的也明了了，a+1的值为在数组a的首地址上后移sizeof(int)个字节，然后强转为int类型指针（其实强转并没有改变什么，原来类型即为整型指针，可以去掉强转），最后输出结果为21222324。
+
+</p>
+<p>再想一下，如果将第一例第五行改为int <em>ptr2=(int </em>)((int)a+1);打印结果会是什么？
+这里要考虑数据在计算机中的存储模式：大端模式和小端模式。解释一下：
+</p>
+<pre><code>大端模式（Big_endian）：字数据的高字节存储在低地址中，而字数据的低字节则存放在高地址中。
+小端模式（Little_endian）：字数据的高字节存储在高地址中，而字数据的低字节则存放在低地址中。</code></pre>
+<p>在大端模式下，a在计算机中存储如下（从低地址到高地址，一个十六进制数代表内存的一个字节，下同）：
+</p>
+<pre><code>0x11 0x12 0x13 0x14 0x21 0x22 0x23 0x24 0x31 0x32 0x33 0x34 0x41 0x42 0x43 0x44 0x51 0x52 0x53 0x54</code></pre>
+<p>在小端模式下，a在计算机中存储如下：
+</p>
+<pre><code>0x14 0x13 0x12 0x11 0x24 0x23 0x22 0x21 0x34 0x33 0x32 0x31 0x44 0x43 0x42 0x41 0x54 0x53 0x52 0x51</code></pre>
+<p>(int)a表示将a的首地址强转为整型数据（若原来是0012FF6C，转换后仍为0012FF6C，但是这时已经不是表示地址而是一个十六进制整型数了），这时+1代表整型数(int)a加1（变为0012FF6D），再把结果强转为整形指针，故指向的数据地址为0012FF6D，即上述存储去的第二个字节开始处。此时输出*ptr2，即输出a数组存储区中第二到第五字节组成的一个整型数，若为大端模式则输出12131421，若为小端模式则输出24111213。
+</p>
+<hr>
+<p>Edit By <a href="http://mahua.jser.me">MaHua</a></p>
+</body></html>
