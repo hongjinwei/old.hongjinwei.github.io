@@ -6,3 +6,4 @@ cp ../main.json .
 cp ../main.json ./backup/$NAME
 
 python poster.py
+mv main.json ../main.json
