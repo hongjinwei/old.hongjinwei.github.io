@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>word-break-ii</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<h2>@<a href="http://hongjinwei.github.io/">HOME</a></h2>
+<h1>Leetcode Solution - Word Break II</h1>
+<p>@<a href="https://leetcode.com/problems/word-break-ii/">https://leetcode.com/problems/word-break-ii/</a></p>
+<pre><code>Given a string s and a dictionary of words dict, add spaces in s to construct a sentence where each word is a valid dictionary word.
+
+Return all such possible sentences.
+
+For example, given
+s = &quot;catsanddog&quot;,
+dict = [&quot;cat&quot;, &quot;cats&quot;, &quot;and&quot;, &quot;sand&quot;, &quot;dog&quot;].
+
+A solution is [&quot;cats and dog&quot;, &quot;cat sand dog&quot;].
+</code></pre>
+
+<p>前段时间一直在研究这个算法的优化问题，在我的项目MyJavaWorkspace/splitword里面有我写过的几个版本，现在这里是优化过后的一个版本，
+适合比较大型的分词。唯一不同的是这里没有采用MAX_LEN来约束最长单词长度。</p>
+<p>基本思路：</p>
+<pre><code>1、从一开始遍历字符串，利用dict来猜词。
+
+                         / 1.猜到字符串最后了，添加结果，返回true
+2、猜到一个单词之后，如果 -&gt;
+                         \ 2.没猜到最后，继续猜剩下的字符串。如果剩下字符串返回false，则加入err的Set中。
+                          \3.如果后缀字符串能在err中找到，说明后缀字符串没办法分词，放弃这次猜词。                   
+
+3.假如没猜到单词，那么返回false
+</code></pre>
+
+<p>AC代码：
+	public class Solution {</p>
+<pre><code>    Set&lt;String&gt; err = new TreeSet&lt;String&gt;(); //存放不能分词的尾串
+    List&lt;String&gt; res = new LinkedList&lt;String&gt;(); //结果
+    private static LinkedList&lt;Integer&gt; tmp = new LinkedList&lt;Integer&gt;(); //记录切分句子的空格的位置
+
+    private boolean guess(String s,Set&lt;String&gt; dict,int start)
+    {
+        boolean flag = false;//用于标识这次查找有没有猜到一个单词
+        for(int i=start+1; i&lt;=s.length(); i++){
+            //当目前这个词能在字典中找到，并且后缀串不在err中时，说明这是一个暂时有效的猜词
+            if(dict.contains(s.substring(start,i)) &amp;&amp; !err.contains(s.substring(i))){
+                tmp.add(i); //记录当前切分词的位置
+                flag = true;
+                if(i == s.length()){
+                    String t = &quot;&quot;;
+                    int k = 0;
+                    for(int x:tmp){
+                        if(k==0){
+                            t += s.substring(k,x);
+                        }else{
+                            t = t + &quot; &quot; + s.substring(k,x);
+                        }
+                        k = x;
+                    }
+                    res.add(t);   //将结果存入res中
+                    tmp.pollLast();  //记得抹去当前位置空格的记录（回溯到递归前的状态）
+                    return true;
+                }else{
+                    if(!guess(s,dict,i)){
+                        err.add(s.substring(i));  //子串不能正确切分，则将该串存入err中
+                    }
+                    tmp.pollLast();  //无论子串是否可以匹配，都要回溯到递归前状态。
+                }       
+            }
+        }
+        return flag;
+    }
+
+
+    public List&lt;String&gt; wordBreak(String s, Set&lt;String&gt; wordDict) {
+        guess(s,wordDict,0);
+        return res;
+    }
+}
+</code></pre>
+
+<p>结果：</p>
+<p><img src="word-break-ii.png" /></p>
+<p>4/24/2015 5:28:49 PM </p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
