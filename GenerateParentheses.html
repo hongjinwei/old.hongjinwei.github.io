@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>New Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<h2>@<a href="http://hongjinwei.github.io/" title="HOME">HOME</a></h2>
+<h1>Leetcode Solution</h1>
+<h2>Generate Parentheses</h2>
+<p>@<a href="https://leetcode.com/problems/generate-parentheses/">https://leetcode.com/problems/generate-parentheses/</a></p>
+<pre><code>Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+
+For example, given n = 3, a solution set is:
+
+&quot;((()))&quot;, &quot;(()())&quot;, &quot;(())()&quot;, &quot;()(())&quot;, &quot;()()()&quot;
+</code></pre>
+
+<p>实际上还是递归产生全排列的问题，只是在选取一个括号放入已产生的队列中的时候，要判断是否能放入这个括号。</p>
+<p>要求放入的括号能够成功匹配，即“)”放入时，要检查是否有一个“)”与之对应。</p>
+<p>我们用一个count变量来表示对应关系。每放入一个“（”，count++,表示有一个可以对应的“（”，放入一个“）”时count--，表示能对应的“（”减少一个。那么自然，当count=0时，放入“）”肯定是不符合规则的。</p>
+<p>另外，再用lnumber，rnumber分别来表示未放入的左右括号数量，那么核心的判断函数<em>puttable()</em>的逻辑还应该包括是否还有括号可以取用。（我们用index=1表示左括号，index=2表示右括号）。</p>
+<p>还有，我们用remain变量来统计剩下的括号数量，当remain==0的时候，表示已经存完，保存序列。</p>
+<p>最后需要注意的是，在调用递归之后，必须要将新添加的括号从已产生队列中删除（由于我们这里才用的是随机选取括号放入队列，因此每次只需把最后一个括号删除即可，记得count 和lnumber/rnumber要跟着变动）。</p>
+<p>我的AC代码：</p>
+<pre><code>public class Solution {
+    private List&lt;String&gt; result = new LinkedList&lt;String&gt;();
+    int count=0;
+    int lnumber;
+    int rnumber;
+    private LinkedList&lt;String&gt; tmp = new LinkedList();
+
+    private boolean puttable(int index)
+    {
+        if(index == 2){//')'
+            if(count &lt;= 0){//no '(' to
+                return false;
+            }else if(rnumber &lt;= 0){
+                return false;
+            }else{
+                return true;
+            }
+        }
+
+        if(index == 1){//'('
+            if(lnumber &lt;= 0){//no '(' left
+                return false;
+            }else{
+                return true;
+            }
+        }
+        return true;
+    }
+
+    private void put(int index){
+        if(index == 1){
+            tmp.add(&quot;(&quot;);
+            count++;
+            lnumber--;
+        }else{
+            tmp.add(&quot;)&quot;);
+            count--;
+            rnumber--;
+        }
+    }
+
+    private void remove(int index){
+        tmp.pollLast();
+        if(index ==1){
+            lnumber++;
+            count--;
+        }else{
+            rnumber++;
+            count++;
+        }
+    }
+
+    public void formatString(int remain)
+    {
+        if(remain == 0){
+            String s = &quot;&quot;;
+            for(String x:tmp){
+                s += x;
+            }
+            result.add(s);
+        }else{
+            for(int i=1; i&lt;=2;i++){
+                if(puttable(i)){
+                    put(i);
+                    formatString(remain-1);
+                    remove(i);
+                }
+            }
+        }
+    }
+
+    public List&lt;String&gt; generateParenthesis(int n) {
+        rnumber = lnumber = n;
+        formatString(2*n);
+        return this.result;
+    }
+
+}
+</code></pre>
+
+<p>结果：</p>
+<p><img src="GenerateParentheses.png" /></p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
