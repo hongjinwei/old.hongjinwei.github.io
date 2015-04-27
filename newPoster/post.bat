@@ -8,3 +8,4 @@ python poster.py
 
 del ..\main.json
 xcopy main.json ..\
+PAUSE

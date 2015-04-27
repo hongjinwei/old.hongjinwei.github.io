@@ -35,9 +35,9 @@ def new_post(filename,postname,tag):
 	postList = json_data.get("posts")
 
 	new_info = {}	
-	new_info['title'] = postname
+	new_info['title'] = postname.decode('gbk').encode('utf-8')
 	new_info['date'] = timeStr
-	new_info['tags'] = tag
+	new_info['tags'] = tag.decode('gbk').encode('utf-8')
 	new_info['path'] = filename
 	new_info['num'] = len(postList);
 	new_info['type'] = u"post"
