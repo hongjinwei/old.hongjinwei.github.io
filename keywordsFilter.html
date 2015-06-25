@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>keywordsFilter</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<h1>搜索关键字的简单去重算法</h1>
+<p>最近在实验室做舆情分析的项目，其中对于用户所关注的舆情来说，关键字太多，例如： 黑龙江 打架斗殴 黑龙江省 打架斗殴事件 这样的舆情类别来说，我用爬虫来搜索我所关注的内容的时候，是做了很多无用功的，在搜索关键字黑龙江之后，黑龙江省就可以完全不用去搜索了。</p>
+<p>对于搜索来说，只需要一部分消息，理论上就可以索引到我们关注的内容。比如黑龙江就可以覆盖黑龙江省的内容。因此，专门设计了一个简单的语义去重算法，来去掉可以覆盖的内容。</p>
+<p>但是这个有一个问题，就是限定词变窄了，理论上可以覆盖我要的内容，但是这里有一个问题就是，如果有一个词叫黑龙，又有一个黑龙江，那么这个词就会出现歧义的情况，如何处理这种情况还需进一步研究。</p>
+<p>在这里先讨论这种去重的算法，这种算法实质就是求关键词里面是否存在子串。</p>
+<p>现在系统总共拥有12万条舆情关键词，如何来进行处理呢？在海量数据中，要找到子串，去掉父串，必须建立索引来完成这个操作。如果直接两两比对，那么时间复杂度达到o(n^2)次，对于这么多数据来说，这个规模实在太大了。</p>
+<p>因此，这里本人专门设计了一个简单的算法来解决这个问题:</p>
+<p>对于词语或者短语来说，我们要找到子串，就需要比对，这里比对可以使用经典的KMP算法。然而要减少规模，就必须建立索引，将相似的内容放到一个桶里，然后进行桶内比较，就可以大大减小规模。</p>
+<p>那么，如何建立索引？</p>
+<p>对于有公共部分的所有短语来说，肯定有部分字是相同的。那么，就可以对每一个词两两截取，建立索引，将拥有同一片段的词放在同一桶内，那么就可以桶内比较了，具体如下：</p>
+<pre><code>黑龙江 建立索引后：
+黑龙江 
+HashMap：    
+            黑龙  -&gt; 黑龙江 
+            龙江  -&gt; 黑龙江
+
+黑龙江省 建立索引：
+HashMap：
+            黑龙  -&gt; 黑龙江 黑龙江省
+            龙江  -&gt; 黑龙江 黑龙江省
+            江省  -&gt; 黑龙江省
+</code></pre>
+
+<p>如上所示，拥有相同子串的词已经放在一个桶内。那么在桶内，就可以找到子串了。这里有个小技巧，在桶内对串按串长度进行排序，那么就可以简化比对操作。</p>
+<p>但是还有一个问题出现了，那就是，建立索引之后，桶的数目太多，桶内的数据大量重复，如何去掉大量重复的比对操作呢？</p>
+<p>这里可以利用cache（可以使用HashSet）只要有需要去掉的长串，就cache下来，下一次，在桶内遇到cache里有的内容，就去掉他，就不会有重复操作了。最后，所有cache里的内容就是需要去掉的词。</p>
+<p>这里建议利用hashSet来存储，一开始HashSet可以去掉完全重复的词，而且HashSet是利用hash表来进行的数据结构，查询操作消耗很小，只需要近似o(1)的开销。</p>
+<p>最后贴上这个系统的关键词去重的核心代码：</p>
+<pre><code>package keywords_filter;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import keywords_filter.tool.Sets;
+
+public class Filter {
+
+    private static Filter filter;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Filter.class);
+
+    public static Filter getFilter() {
+        if (filter == null) {
+            filter = new Filter();
+        }
+        return filter;
+    }
+
+    /**
+     * 分词器，将黑龙江省分成黑龙， 龙江， 江省
+     * 用于建立索引
+     * @param word
+     * @return
+     */
+    private List&lt;String&gt; splitWord(String word) {
+        List&lt;String&gt; ans = new ArrayList&lt;String&gt;();
+        if (word.length() &lt;= 1) {
+            return ans;
+        }
+        for (int i = 2; i &lt;= word.length(); i++) {
+            ans.add(word.substring(i - 2, i));
+        }
+        return ans;
+    }
+
+    /**
+     * 具体更新索引map的操作
+     * 
+     * @param subWord
+     * @param word
+     * @param map
+     */
+    private void updateMap(String subWord, String word, HashMap&lt;String, Set&lt;String&gt;&gt; map) {
+        Set&lt;String&gt; set = map.get(subWord);
+        if (set == null) {
+            set = new HashSet&lt;String&gt;();
+            set.add(word);
+            map.put(subWord, set);
+        } else {
+            set.add(word);
+        }
+    }
+
+    /**
+     * 建立索引 如黑龙江 则建立索引 黑龙 -&gt; 黑龙江, 龙江 -&gt; 黑龙江
+     * 
+     * @param word
+     * @author BAO
+     */
+    private void makeIndex(String word, HashMap&lt;String, Set&lt;String&gt;&gt; map) {
+        List&lt;String&gt; subWord = splitWord(word);
+        for (String w : subWord) {
+            updateMap(w, word, map);
+        }
+    }
+
+    /**
+     * 获取一个应该被过滤的词汇的set
+     * 
+     * @param set
+     * @param cache
+     * @return
+     */
+    private Set&lt;String&gt; getFilterWords(Set&lt;String&gt; set, HashSet&lt;String&gt; cache) {
+        List&lt;String&gt; list = new ArrayList&lt;String&gt;();
+        Set&lt;String&gt; subWord = new HashSet&lt;String&gt;();
+        for (String word : set) {
+            if (!cache.contains(word)) {
+                list.add(word);
+            }
+        }
+        Collections.sort(list, new Comparator&lt;String&gt;() {
+            public int compare(String a, String b) {
+                if (a.length() &gt; b.length())
+                    return 1;
+                if (a.length() == b.length())
+                    return 0;
+                return -1;
+            }
+        });
+
+        for (int i = 0; i &lt; list.size(); i++) {
+            String w = list.get(i);
+            if (w.equals(&quot;&quot;)) {
+                continue;
+            }
+            subWord.add(w);
+            for (int j = i + 1; j &lt; list.size(); j++) {
+                String word = list.get(j);
+                if (word.equals(&quot;&quot;)) {
+                    continue;
+                }
+                list.set(j, word.replaceAll(&quot;.*&quot; + Matcher.quoteReplacement(w) + &quot;.*&quot;, &quot;&quot;));
+            }
+        }
+        set.removeAll(subWord);
+        return set;
+    }
+
+    /**
+     * 过滤掉一个set中可能包含的词汇，如黑龙江，黑龙江省，只留下黑龙江
+     * 
+     * @param wordSet
+     * @return
+     */
+    public Set&lt;String&gt; filterWords(Set&lt;String&gt; wordSet) {
+        HashMap&lt;String, Set&lt;String&gt;&gt; map = new HashMap&lt;String, Set&lt;String&gt;&gt;();
+        HashSet&lt;String&gt; cache = new HashSet&lt;String&gt;();
+
+        for (String word : wordSet) {
+            makeIndex(word, map);
+        }
+        for (Set&lt;String&gt; set : map.values()) {
+            try {
+                Set&lt;String&gt; tmp = getFilterWords(set, cache);
+
+                if (tmp != null) {
+                    cache.addAll(tmp);
+                }
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e);
+            }
+        }
+
+        wordSet.removeAll(cache);
+        map.clear();
+        cache.clear();
+        return wordSet;
+    }
+
+    /**
+     * 返回2个set所有keyword互相过滤之后的结果
+     * 
+     * @param set1
+     * @param set2
+     * @return
+     */
+    public Set&lt;String&gt; filterWords(Set&lt;String&gt; set1, Set&lt;String&gt; set2) {
+        return filterWords(Sets.union(set1, set2));
+    }
+}
+</code></pre>
+
+<p>这个代码桶内比对没有使用KMP，而是直接偷懒用了正则，自行换成KMP应该可以进一步提升效率。</p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
