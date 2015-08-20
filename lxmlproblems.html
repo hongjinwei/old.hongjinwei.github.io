@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>lxmlproblems</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* Solarized (Light) */
+/* Authors: Ethan Schoonover: http://ethanschoonover.com/solarized, CodeCatalyst: http://codecatalyst.com/ */
+/* Version: d9a83f4e7a47432baff86e1e7946d9e066cf3d1b (modified) */
+/* https://github.com/CodeCatalyst/mou-theme-solarized */
+
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+ol,
+ul,
+li,
+img {
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+html * {
+  font-family: "ff-din-web-pro-1", "ff-din-web-pro-2", sans-serif;
+  font-size: 16px;
+  line-height: 19.2px;
+  color-profile: sRGB;
+}
+body {
+  min-width: 32em;
+  max-width: 52em;
+  margin: 10px;
+}
+p {
+  font-weight: lighter;
+  margin-bottom: 20px;
+}
+strong {
+  font-weight: bold;
+}
+ol,
+ul {
+  margin-left: 2em;
+  margin-bottom: 20px;
+}
+ul ul,
+ol ol,
+ul ol,
+ol ul {
+  margin-top: 10px;
+}
+li {
+  margin-bottom: 10px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: lighter;
+  text-transform: capitalize;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+h1 {
+  font-size: 24.624px;
+  line-height: 29.548799999999996px;
+}
+h2 {
+  font-size: 24.624px;
+  line-height: 29.548799999999996px;
+}
+h3 {
+  font-size: 23.44px;
+  line-height: 28.128px;
+}
+h4 {
+  font-size: 22.16px;
+  line-height: 26.592px;
+}
+h5 {
+  font-size: 22.16px;
+  line-height: 26.592px;
+}
+h6 {
+  font-size: 22.16px;
+  line-height: 26.592px;
+}
+img {
+  margin-bottom: 20px;
+}
+h1 img,
+h2 img,
+h3 img,
+h4 img,
+h5 img,
+h6 img,
+p img {
+  margin-bottom: 0;
+}
+pre {
+  margin-bottom: 20px;
+}
+pre,
+code {
+  font-family: monospace;
+}
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  padding: 15px;
+}
+h1 {
+  text-transform: uppercase;
+  font-weight: bold;
+  border-bottom: 1px solid;
+}
+h2 {
+  border-bottom: 1px solid;
+}
+h3,
+h4,
+h5,
+h6 {
+  border-bottom: none;
+}
+html * {
+  color: #657b83;
+}
+html body {
+  background-color: #fdf6e3;
+}
+html h1,
+html h2,
+html h3,
+html h4,
+html h5,
+html h6 {
+  color: #586e75;
+  border-color: #657b83;
+}
+html a,
+html a:active,
+html a:visited {
+  color: #586e75;
+}
+html a:hover {
+  background-color: #eee8d5;
+}
+html pre {
+  color: #586e75;
+  background-color: #eee8d5;
+}
+html a,
+html a:active,
+html a:visited,
+html code.url {
+  color: #b58900;
+}
+html h1 {
+  color: #b58900;
+}
+html h2,
+html h3,
+html h4,
+html h5,
+html h6 {
+  color: #b58900;
+}
+
+/*
+LICENSE
+
+Solarized Theme for Mou
+
+Copyright (c) 2012 CodeCatalyst, LLC
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Solarized
+
+Copyright (c) 2011 Ethan Schoonover
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+</style>
+</head>
+<body>
+<h1>完美MAC OSX 下安装lxml的问题</h1>
+<p>今天试玩mac，想在mac上使用python的lxml，用来做xpath解析，然而在pip install lxml时，竟然报错了</p>
+<pre><code>Error: #include  &quot;xml/xmlversion.h&quot;  not found
+</code></pre>
+
+<p>赶紧搜索了一下，发现了这样的解决方法：</p>
+<pre><code>手动下载lxml包,解压,make.在export的情况下,编译成功了.看来C_INCLUDE_PATH是有效的,但是pip还是不行.
+
+继续google,终于看到了在pip中如何设置一些编译变量.正确的语法是在pip之前先设置好变量,再pip install.
+
+ sudo C_INCLUDE_PATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/include/libxml2:/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/include/libxml2/libxml:/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/include   pip install lxml
+
+同样的,如果需要设置libpath,也在pip之前加入C_LIB_PATH再使用pip.
+</code></pre>
+
+<p>然而按照这样操作之后，仍然没有起作用。</p>
+<p>最后搜索到这样一篇文章 <a href="http://www.ithao123.cn/content-622371.html" title="http://www.ithao123.cn/content-622371.html">http://www.ithao123.cn/content-622371.html</a></p>
+<p>解决方案如下：</p>
+<pre><code>原来这是因为升级之后，在xcode的中，本版本的SDK没有include相应的头文件，那么，需要怎么做才能让系统拥有这些编译过的文件呢？
+很简单，如果你拥有了xcode，那么只用安装一个插件软件，那么就搞定了，如果，你没有xcode怎么办？
+微笑答案是，很幸运，你依然可以安装这个插件，因为这个插件就是Apple为了在mac系统下开发其他语言（例如c、c++）的人员提供的一个基本类库的集合插件
+这个好东西就是：command line tools
+
+打开命令行，输入：
+
+xcode-select --install
+
+回车，运行，如果你有Xcode，它会提示你安装这个东西，那么你只要确定，耐心等待5分钟，如果你没有xcode，系统也会提示你愿不愿意在没有xcode 的情况下安装这个东西：总之你安装就好
+
+（不过在这之前，你要确定，你安装了pip，学python的人不会连pip都不知道是什么的话，自己google下载吧）
+
+最后，重新安装一次:
+pip install lxml
+</code></pre>
+
+<p>完美解决，终于可以愉快的玩耍了。</p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
